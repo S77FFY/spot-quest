@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="app-repo" content="spot-quest">
-<meta name="app-version" content="1.0.0">
+<meta name="app-version" content="1.0.2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -116,13 +116,14 @@ svg use{overflow:visible}
 #game.tut #tray{grid-template-columns:repeat(3,96px);justify-content:center}
 #trayWrap{background:var(--bg)}
 .ti{position:relative;background:var(--cream);border-radius:12px;padding:3px 2px 3px;display:flex;flex-direction:column;align-items:center;color:var(--ink);min-width:0;border:2px solid transparent}
-.ti svg{width:34px;height:34px;overflow:visible}
+.ti>svg{width:34px;height:34px;overflow:visible}
 .ti span{font-size:10px;font-weight:800;line-height:1.15;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .ti span.l{font-size:9px}
-.ti.got{background:#d6efc2}
-.ti.got>svg{opacity:.3}
-.ti.got span{opacity:.55;text-decoration:line-through}
-.ti .tick{position:absolute;top:2px;right:2px;width:18px;height:18px;display:none}
+.ti.got{background:#c9c5d1}
+.ti.got>svg{filter:grayscale(1);opacity:.4}
+.ti.got span{color:#6e6878;text-decoration:line-through}
+.ti .tick{position:absolute;top:3px;right:3px;width:22px;height:22px;display:none;z-index:2;line-height:0}
+.ti .tick svg{width:100%;height:100%;display:block}
 .ti.got .tick{display:block;animation:popin .4s}
 .ti.pop{animation:pop .5s}
 @keyframes pop{40%{transform:scale(1.18)}}
@@ -194,7 +195,7 @@ svg use{overflow:visible}
   <div class="orow"><button class="btn2" id="dLevels">Levels</button><button class="btn" id="dNext">Next ›</button></div>
 </div></div>
 
-<div id="ver">v1.0.0</div>
+<div id="ver">v1.0.2</div>
 <script>
 /* ===== core: palette, cel gradients, shape helpers ===== */
 const OUT = '#2a1f3d';
@@ -680,7 +681,7 @@ const LEVELS = [
     s+=tr(1250,220,0,1,R(-170,-110,340,200,'#d9cfe6',12)+E(0,-50,110,40,'sky')+H('M-60 -70Q-30 -84 10 -82',5)+C(0,150,52,'tan'));
     s+=piano(470,980,-18,1,'brown');
     s+=tr(1080,1170,-24,1,R(-270,-175,540,350,'#474c56',16)+L('M-150 -30L-110 -62L-60 -132L-38 -122L-78 -52L40 -52L120 -122L142 -102L82 -22L190 8L180 40L60 30L120 120L95 135L20 52L-80 52L-60 132L-85 137L-116 52L-150 30Z',9,'#f4f4f4')+`<circle cx="-198" cy="0" r="40" fill="none" stroke="#f4f4f4" stroke-width="9"/>`);
-    s+=tr(330,1800,0,1,R(-215,-280,430,60,'navy',12)+R(-195,-230,390,470,'pink',24)+R(-195,-20,390,260,'lilac',24)+L('M-195 50H195',4,'rgba(0,0,0,.15)'));
+    s+=tr(330,1800,0,1,R(-215,-280,430,60,'navy',12)+R(-195,-230,390,470,'pink',24)+R(-195,-20,390,260,'lilac',24)+L('M-195 50H195',4,'rgba(0,0,0,.15)')+P('M-170 -200Q-100 -192 -24 -200Q-16 -150 -24 -86Q-100 -94 -170 -86Q-178 -146 -170 -200Z','white')+P('M24 -200Q100 -192 170 -200Q178 -146 170 -86Q100 -94 24 -86Q16 -150 24 -200Z','white')+L('M-150 -180Q-98 -172 -44 -180M44 -180Q98 -172 150 -180',3,'rgba(120,90,160,.35)'));
     s+=tr(860,1780,0,1,R(-210,-100,420,190,'tan',36)+R(-210,-100,120,360,'tan',36)+R(-180,-70,360,60,'#e9c79a',20));
     s+=potPlant(1510,620,1)+potPlant(90,560,.9)+potPlant(1500,2080,1.1);
     s+=C(1400,1500,56,'cream')+C(1400,1500,30,'yellow');
