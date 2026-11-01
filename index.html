@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="app-repo" content="spot-quest">
-<meta name="app-version" content="1.0.2">
+<meta name="app-version" content="1.0.4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -89,9 +89,11 @@ svg use{overflow:visible}
 @keyframes hurt{from{opacity:1}to{opacity:0}}
 .rg0{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}
 .rg1{fill:none;stroke:#ff2e88;stroke-linecap:round;stroke-linejoin:round}
-.zb{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px}
-.zb button{width:42px;height:42px;border-radius:14px;background:rgba(42,31,61,.85);font-size:22px;font-weight:900;border:2px solid rgba(255,255,255,.2);display:grid;place-items:center}
-.zb svg{width:20px;height:20px}
+.zb{display:flex;justify-content:center;gap:10px;padding:6px 8px 0;background:#120c1c}
+.zb button{height:36px;min-width:48px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,.1);font-size:22px;font-weight:900;border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;gap:6px}
+.zb #zfit{font-size:13px}
+.zb svg{width:18px;height:18px}
+.touch .zb #zin,.touch .zb #zout{display:none}
 #ribbon{position:absolute;top:10px;left:50%;transform:translate(-50%,-140%);background:var(--gold);color:var(--ink);font-weight:900;padding:8px 16px;border-radius:30px;border:3px solid var(--ink);display:flex;gap:8px;align-items:center;pointer-events:none;white-space:nowrap;opacity:0;box-shadow:0 4px 0 var(--ink)}
 #ribbon svg{width:22px;height:22px}
 #ribbon.show{animation:rib 3s ease forwards}
@@ -142,6 +144,12 @@ svg use{overflow:visible}
 .orow{display:flex;gap:10px;justify-content:center;margin-top:16px}
 @keyframes popin{from{transform:scale(.5);opacity:0}}
 @keyframes spinin{from{transform:scale(0) rotate(-200deg)}}
+.madeby{font-weight:900;font-size:20px;color:var(--cream);opacity:.9;margin-top:-10px;text-shadow:0 2px 0 rgba(0,0,0,.4)}
+.snd svg{width:22px;height:22px}
+.snd.off{opacity:.45}
+.ibtn.sm{width:34px;height:34px;border-radius:11px}
+.ibtn.sm svg{width:18px;height:18px}
+@media (max-width:400px){.lhead .logo{font-size:24px}.lhead{gap:6px}.lhead .ibtn{width:38px;height:38px}.scount{padding:6px 8px;font-size:14px}}
 #ver{position:fixed;right:6px;bottom:calc(var(--sab) + 1px);font-size:9px;opacity:.4;pointer-events:none;z-index:30;color:#fff;font-weight:700}
 </style>
 </head>
@@ -153,6 +161,7 @@ svg use{overflow:visible}
   <div class="tmid">
     <div class="logo">Sp<span class="lens" id="lens1"></span>t Quest</div>
     <button class="btn" id="play">Play</button>
+    <div class="madeby">made by Scar⭐️</div>
   </div>
 </section>
 
@@ -160,6 +169,8 @@ svg use{overflow:visible}
   <div class="lhead">
     <div class="logo">Sp<span class="lens"></span>t Quest</div>
     <div class="scount" id="scount"></div>
+    <button class="ibtn snd" data-k="music" aria-label="Music"></button>
+    <button class="ibtn snd" data-k="sfx" aria-label="Sound effects"></button>
     <button class="ibtn" id="howto" aria-label="How to play">?</button>
   </div>
   <div id="grid"></div>
@@ -170,18 +181,19 @@ svg use{overflow:visible}
     <button class="ibtn" id="back" aria-label="Back">‹</button>
     <div class="ttl"><span class="n" id="lvNum"></span><span class="nm" id="lvName"></span></div>
     <span id="cnt"></span>
+    <button class="ibtn snd sm" data-k="music" aria-label="Music"></button>
     <div id="hearts"></div>
   </div>
   <div class="prog" id="prog"><div id="progFill"></div><i></i></div>
   <div id="stage">
     <svg id="scene" xmlns="http://www.w3.org/2000/svg"></svg>
     <canvas id="fx"></canvas>
-    <div class="zb">
+    <div id="ribbon"></div>
+  </div>
+  <div class="zb">
       <button id="zin" aria-label="Zoom in">+</button>
       <button id="zout" aria-label="Zoom out">−</button>
-      <button id="zfit" aria-label="Show whole picture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    </div>
-    <div id="ribbon"></div>
+      <button id="zfit" aria-label="Show whole picture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Whole picture</button>
   </div>
   <div id="coach"><div class="cicon" id="cicon"></div><div class="ctext" id="ctext"></div><div class="crow"><button class="btn" id="cbtn">Next</button><button class="link" id="cskip">Skip</button></div></div>
   <div id="trayWrap"><div id="tray"></div></div>
@@ -195,7 +207,7 @@ svg use{overflow:visible}
   <div class="orow"><button class="btn2" id="dLevels">Levels</button><button class="btn" id="dNext">Next ›</button></div>
 </div></div>
 
-<div id="ver">v1.0.2</div>
+<div id="ver">v1.0.4</div>
 <script>
 /* ===== core: palette, cel gradients, shape helpers ===== */
 const OUT = '#2a1f3d';
@@ -1123,6 +1135,101 @@ const TUT = { name:'Playroom', col:'#ffb84a', icon:'duck', items:['duck','apple'
     return s;
   }};
 
+/* ===== sound: synthesised sfx + EDM loop (Web Audio, no files) ===== */
+const SND = (() => {
+  let ac = null, master, musicBus, sfxBus, noiseBuf, timer = 0, nextT = 0, step = 0, playing = false;
+  const st = { music: true, sfx: true };
+  try { const s = JSON.parse(localStorage.getItem('spotquest.snd')); if (s) Object.assign(st, s); } catch (e) {}
+  const saveSt = () => { try { localStorage.setItem('spotquest.snd', JSON.stringify(st)); } catch (e) {} };
+  const BPM = 124, S16 = 60 / BPM / 4;
+  const hz = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  function init() {
+    if (ac) { if (ac.state === 'suspended') ac.resume(); return; }
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+    ac = new AC();
+    master = ac.createGain(); master.gain.value = .8;
+    const comp = ac.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4;
+    master.connect(comp); comp.connect(ac.destination);
+    musicBus = ac.createGain(); musicBus.gain.value = st.music ? .42 : 0; musicBus.connect(master);
+    sfxBus = ac.createGain(); sfxBus.gain.value = st.sfx ? .9 : 0; sfxBus.connect(master);
+    noiseBuf = ac.createBuffer(1, ac.sampleRate, ac.sampleRate);
+    const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    // unlock on iOS
+    const b = ac.createBufferSource(); b.buffer = ac.createBuffer(1, 1, 22050); b.connect(ac.destination); b.start(0);
+    if (st.music) startMusic();
+  }
+
+  /* --- building blocks --- */
+  function env(g, t, a, peak, dec, sus = 0.0001) {
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a);
+    g.gain.exponentialRampToValueAtTime(Math.max(sus, 0.0001), t + a + dec);
+  }
+  function tone(bus, type, f, t, dur, vol, f2, filt) {
+    const o = ac.createOscillator(), g = ac.createGain(); o.type = type; o.frequency.setValueAtTime(f, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    let out = o;
+    if (filt) { const fl = ac.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = filt; o.connect(fl); out = fl; }
+    out.connect(g); g.connect(bus); env(g, t, .004, vol, dur); o.start(t); o.stop(t + dur + .05);
+  }
+  function noise(bus, t, dur, vol, type, freq, q = 1) {
+    const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    s.buffer = noiseBuf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+    s.connect(f); f.connect(g); g.connect(bus); env(g, t, .002, vol, dur); s.start(t, Math.random() * .5); s.stop(t + dur + .05);
+  }
+
+  /* --- sound effects --- */
+  const fx = {
+    find() { const t = ac.currentTime; [76, 79, 84, 88].forEach((m, i) => { tone(sfxBus, 'triangle', hz(m), t + i * .055, .28, .32); tone(sfxBus, 'sine', hz(m + 12), t + i * .055, .18, .12); });
+      for (let i = 0; i < 6; i++) tone(sfxBus, 'sine', hz(96 + Math.floor(Math.random() * 8)), t + .2 + i * .04, .09, .06); },
+    miss() { const t = ac.currentTime; tone(sfxBus, 'sawtooth', 220, t, .28, .25, 70, 900); tone(sfxBus, 'square', 110, t + .02, .22, .12, 55, 600); },
+    tap() { tone(sfxBus, 'sine', 880, ac.currentTime, .06, .12, 1320); },
+    unlock() { const t = ac.currentTime; [72, 76, 79, 84, 79, 84].forEach((m, i) => tone(sfxBus, 'square', hz(m), t + i * .09, .2, .14, 0, 2600)); },
+    star() { const t = ac.currentTime; [60, 64, 67, 72, 76, 79, 84].forEach((m, i) => { tone(sfxBus, 'sawtooth', hz(m), t + i * .07, .5, .1, 0, 3000); tone(sfxBus, 'triangle', hz(m + 12), t + i * .07, .4, .12); });
+      noise(sfxBus, t + .5, 1.2, .08, 'highpass', 7000); }
+  };
+  function play(name) { if (!ac || !st.sfx) return; if (ac.state === 'suspended') ac.resume(); try { fx[name](); } catch (e) {} }
+
+  /* --- EDM loop: Am F C G at 124bpm --- */
+  const CH = [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]];
+  const BASS = [45, 41, 36, 43];
+  const ARP = [0, 1, 2, 1, 2, 0, 2, 1];
+  function schedule() {
+    while (nextT < ac.currentTime + .12) { playStep(step, nextT); nextT += S16; step++; }
+    timer = setTimeout(schedule, 25);
+  }
+  function playStep(s, t) {
+    const bar = Math.floor(s / 16), pos = s % 16, sec = Math.floor(bar / 8) % 4, ch = CH[bar % 4];
+    const drop = sec !== 0;                      // first 8 bars = intro, then the drop
+    if (pos % 4 === 0) {                         // kick
+      const o = ac.createOscillator(), g = ac.createGain(); o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .14);
+      o.connect(g); g.connect(musicBus); env(g, t, .002, drop ? .95 : .6, .3); o.start(t); o.stop(t + .35);
+    }
+    if (pos % 4 === 2) noise(musicBus, t, .05, .16, 'highpass', 8000);          // open hat on the offbeat
+    else if (drop) noise(musicBus, t, .025, .05, 'highpass', 10000);            // closed hats
+    if (drop && (pos === 4 || pos === 12)) noise(musicBus, t, .16, .32, 'bandpass', 1500, .8);  // clap
+    if (pos % 4 === 2) tone(musicBus, 'sawtooth', hz(BASS[bar % 4]), t, S16 * 1.6, drop ? .3 : .18, 0, 700); // offbeat bass
+    if (drop && (pos === 0 || pos === 6 || pos === 10)) ch.forEach(m => [-8, 8].forEach(dt => {      // chord stabs
+      const o = ac.createOscillator(), f = ac.createBiquadFilter(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.value = hz(m + 12); o.detune.value = dt;
+      f.type = 'lowpass'; f.frequency.setValueAtTime(3200, t); f.frequency.exponentialRampToValueAtTime(500, t + .25);
+      o.connect(f); f.connect(g); g.connect(musicBus); env(g, t, .005, .05, .25); o.start(t); o.stop(t + .3);
+    }));
+    if (sec === 2 || sec === 3 || (!drop && pos % 2 === 0)) {                    // arp lead
+      const m = ch[ARP[pos % 8]] + (pos >= 8 ? 24 : 12);
+      tone(musicBus, sec === 3 ? 'square' : 'triangle', hz(m), t, S16 * .9, drop ? .1 : .08, 0, 4000);
+    }
+    if (pos === 0 && bar % 8 === 7) noise(musicBus, t, S16 * 16, .06, 'bandpass', 3000, 2);   // riser into next section
+  }
+  function startMusic() { if (!ac || playing) return; playing = true; step = 0; nextT = ac.currentTime + .1; schedule(); }
+  function stopMusic() { playing = false; clearTimeout(timer); }
+
+  function setMusic(on) { st.music = on; saveSt(); if (!ac) return; musicBus.gain.setTargetAtTime(on ? .42 : 0, ac.currentTime, .05); if (on) startMusic(); else setTimeout(() => { if (!st.music) stopMusic(); }, 300); }
+  function setSfx(on) { st.sfx = on; saveSt(); if (ac) sfxBus.gain.setTargetAtTime(on ? .9 : 0, ac.currentTime, .02); }
+  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) { stopMusic(); ac.suspend(); } else { ac.resume(); if (st.music) startMusic(); } });
+  return { init, play, setMusic, setSfx, st };
+})();
+
 /* ===== game ===== */
 const KEY = 'spotquest.v1';
 const $ = s => document.querySelector(s);
@@ -1145,6 +1252,7 @@ $('#defs').innerHTML = gradDefs() + itemDefs();
 document.querySelectorAll('.lens').forEach(e => e.innerHTML = LENS);
 $('#bigstar').innerHTML = GSTAR;
 const coarse = matchMedia('(pointer:coarse)').matches;
+if(coarse) document.body.classList.add('touch');
 function show(id){ document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); }
 function hearts(n){ let h=''; for(let i=0;i<3;i++) h += `<span class="hrt ${i<n?'full':'empty'}">${HEART}</span>`; return h; }
 
@@ -1158,7 +1266,15 @@ function hearts(n){ let h=''; for(let i=0;i<3;i++) h += `<span class="hrt ${i<n?
   }
   $('#tbg').innerHTML = h;
 })();
-$('#play').onclick = () => prog.tut ? goLevels() : startLevel(-1);
+$('#play').onclick = () => { SND.play('tap'); prog.tut ? goLevels() : startLevel(-1); };
+document.addEventListener('pointerdown', () => SND.init(), true);
+const ICON = {
+  music: on => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>${on?'':'<path d="M3 3l18 18" stroke="#ff3d6e"/>'}</svg>`,
+  sfx: on => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/>${on?'<path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>':'<path d="M17 9l5 6M22 9l-5 6" stroke="#ff3d6e"/>'}</svg>`
+};
+function sndIcons(){ document.querySelectorAll('.snd').forEach(b => { const on = SND.st[b.dataset.k]; b.innerHTML = ICON[b.dataset.k](on); b.classList.toggle('off', !on); }); }
+document.querySelectorAll('.snd').forEach(b => b.onclick = () => { SND.init(); const k = b.dataset.k, on = !SND.st[k]; k === 'music' ? SND.setMusic(on) : SND.setSfx(on); sndIcons(); });
+sndIcons();
 
 /* --- level select --- */
 let justUnlocked = -1;
@@ -1185,7 +1301,7 @@ function goLevels(){
 $('#grid').onclick = e => {
   const c = e.target.closest('.card'); if(!c) return;
   const i = +c.dataset.i;
-  if(unlocked(i)) startLevel(i);
+  if(unlocked(i)){ SND.play('tap'); startLevel(i); }
   else { c.classList.remove('nope'); void c.offsetWidth; c.classList.add('nope'); }
 };
 $('#howto').onclick = () => startLevel(-1);
@@ -1363,7 +1479,7 @@ function tap(sx, sy){
 }
 function find(t){
   t.found = true; run.found++;
-  drawRing(t); burst(t.x, t.y, t.s);
+  drawRing(t); burst(t.x, t.y, t.s); SND.play('find');
   const el = document.querySelector(`.ti[data-id="${t.id}"]`); if(el){ el.classList.add('got','pop'); el.classList.remove('hl'); }
   updateProg();
   if(run.tut){ tutCheck(); return; }
@@ -1373,12 +1489,12 @@ function find(t){
   if(run.found === run.targets.length){ run.over = true; setTimeout(showDone, 1100); }
 }
 function miss(wx, wy){
-  missFx(wx, wy);
+  missFx(wx, wy); SND.play('miss');
   if(run.hearts > 0){ run.hearts--; updateHearts(true); }
   stage.classList.remove('hurt'); void stage.offsetWidth; stage.classList.add('hurt');
   if(run.tut){ run.tmiss = true; tutCheck(); } else record();
 }
-function ribbon(txt){ const r = $('#ribbon'); r.innerHTML = UNLOCK + txt; r.classList.remove('show'); void r.offsetWidth; r.classList.add('show'); }
+function ribbon(txt){ const r = $('#ribbon'); r.innerHTML = UNLOCK + txt; setTimeout(() => SND.play('unlock'), 350); r.classList.remove('show'); void r.offsetWidth; r.classList.add('show'); }
 function showDone(){
   if(!run) return;
   const last = run.i === LEVELS.length-1;
@@ -1386,7 +1502,7 @@ function showDone(){
   $('#doneSub').textContent = last ? 'All 15 found in the final scene!' : 'All 15 found';
   $('#doneHearts').innerHTML = hearts(run.hearts);
   $('#dNext').style.display = last ? 'none' : '';
-  $('#done').classList.add('on');
+  $('#done').classList.add('on'); SND.play('star');
 }
 
 /* --- found ring --- */
