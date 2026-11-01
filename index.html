@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="app-repo" content="spot-quest">
-<meta name="app-version" content="1.0.4">
+<meta name="app-version" content="1.0.6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -94,10 +94,11 @@ svg use{overflow:visible}
 .zb #zfit{font-size:13px}
 .zb svg{width:18px;height:18px}
 .touch .zb #zin,.touch .zb #zout{display:none}
-#ribbon{position:absolute;top:10px;left:50%;transform:translate(-50%,-140%);background:var(--gold);color:var(--ink);font-weight:900;padding:8px 16px;border-radius:30px;border:3px solid var(--ink);display:flex;gap:8px;align-items:center;pointer-events:none;white-space:nowrap;opacity:0;box-shadow:0 4px 0 var(--ink)}
+#ribbon{position:absolute;top:10px;left:50%;transform:translate(-50%,-140%);background:var(--gold);color:var(--ink);font-weight:900;padding:8px 16px;border-radius:30px;border:3px solid var(--ink);display:flex;gap:8px;align-items:center;pointer-events:none;white-space:nowrap;opacity:0;box-shadow:0 4px 0 var(--ink);cursor:pointer;z-index:5}
+#ribbon b{background:var(--pink);color:#fff;border-radius:20px;padding:3px 10px;margin-left:4px;font-size:14px}
 #ribbon svg{width:22px;height:22px}
-#ribbon.show{animation:rib 3s ease forwards}
-@keyframes rib{0%{transform:translate(-50%,-140%);opacity:0}12%,82%{transform:translate(-50%,0);opacity:1}100%{transform:translate(-50%,-140%);opacity:0}}
+#ribbon.show{animation:rib 5s ease forwards;pointer-events:auto}
+@keyframes rib{0%{transform:translate(-50%,-140%);opacity:0}8%,90%{transform:translate(-50%,0);opacity:1}100%{transform:translate(-50%,-140%);opacity:0}}
 #coach{display:none;margin:6px 8px 0;background:var(--cream);color:var(--ink);border-radius:16px;padding:10px 12px;gap:10px;align-items:center;border:3px solid var(--ink)}
 #game.tut #coach{display:flex}
 .ctext{flex:1;font-weight:800;font-size:15px;line-height:1.25}
@@ -207,7 +208,7 @@ svg use{overflow:visible}
   <div class="orow"><button class="btn2" id="dLevels">Levels</button><button class="btn" id="dNext">Next ›</button></div>
 </div></div>
 
-<div id="ver">v1.0.4</div>
+<div id="ver">v1.0.6</div>
 <script>
 /* ===== core: palette, cel gradients, shape helpers ===== */
 const OUT = '#2a1f3d';
@@ -692,13 +693,13 @@ const LEVELS = [
     s+=chairTop(380,430,180,'dbrown');
     s+=tr(1250,220,0,1,R(-170,-110,340,200,'#d9cfe6',12)+E(0,-50,110,40,'sky')+H('M-60 -70Q-30 -84 10 -82',5)+C(0,150,52,'tan'));
     s+=piano(470,980,-18,1,'brown');
-    s+=tr(1080,1170,-24,1,R(-270,-175,540,350,'#474c56',16)+L('M-150 -30L-110 -62L-60 -132L-38 -122L-78 -52L40 -52L120 -122L142 -102L82 -22L190 8L180 40L60 30L120 120L95 135L20 52L-80 52L-60 132L-85 137L-116 52L-150 30Z',9,'#f4f4f4')+`<circle cx="-198" cy="0" r="40" fill="none" stroke="#f4f4f4" stroke-width="9"/>`);
+    s+=tr(1080,1170,-24,1,R(-270,-175,540,350,'#474c56',16)+`<g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-162 -16Q-150 -36 -138 -44L-112 -118Q-96 -138 -80 -128L-96 -62Q-40 -54 22 -48L184 -82Q202 -78 200 -56L64 -8L200 40Q204 62 186 70L22 50Q-40 56 -92 60L-62 126Q-70 144 -88 138L-132 56Q-150 40 -162 16 M-232 0a38 38 0 1 0 76 0a38 38 0 1 0 -76 0" stroke="#ffffff" stroke-width="20" opacity=".12"/><path d="M-162 -16Q-150 -36 -138 -44L-112 -118Q-96 -138 -80 -128L-96 -62Q-40 -54 22 -48L184 -82Q202 -78 200 -56L64 -8L200 40Q204 62 186 70L22 50Q-40 56 -92 60L-62 126Q-70 144 -88 138L-132 56Q-150 40 -162 16 M-232 0a38 38 0 1 0 76 0a38 38 0 1 0 -76 0" stroke="#eceff2" stroke-width="9" opacity=".85" stroke-dasharray="40 5 18 4 60 6"/><path d="M-162 -16Q-150 -36 -138 -44L-112 -118Q-96 -138 -80 -128L-96 -62Q-40 -54 22 -48L184 -82Q202 -78 200 -56L64 -8L200 40Q204 62 186 70L22 50Q-40 56 -92 60L-62 126Q-70 144 -88 138L-132 56Q-150 40 -162 16 M-232 0a38 38 0 1 0 76 0a38 38 0 1 0 -76 0" stroke="#ffffff" stroke-width="4" stroke-dasharray="10 7 3 9 22 6" transform="translate(1.5 -1.5)"/></g>`+dots(r,40,'#ffffff',1.5,3.5,[-250,-150,460,300],.35));
     s+=tr(330,1800,0,1,R(-215,-280,430,60,'navy',12)+R(-195,-230,390,470,'pink',24)+R(-195,-20,390,260,'lilac',24)+L('M-195 50H195',4,'rgba(0,0,0,.15)')+P('M-170 -200Q-100 -192 -24 -200Q-16 -150 -24 -86Q-100 -94 -170 -86Q-178 -146 -170 -200Z','white')+P('M24 -200Q100 -192 170 -200Q178 -146 170 -86Q100 -94 24 -86Q16 -150 24 -200Z','white')+L('M-150 -180Q-98 -172 -44 -180M44 -180Q98 -172 150 -180',3,'rgba(120,90,160,.35)'));
     s+=tr(860,1780,0,1,R(-210,-100,420,190,'tan',36)+R(-210,-100,120,360,'tan',36)+R(-180,-70,360,60,'#e9c79a',20));
     s+=potPlant(1510,620,1)+potPlant(90,560,.9)+potPlant(1500,2080,1.1);
     s+=C(1400,1500,56,'cream')+C(1400,1500,30,'yellow');
-    const tape=(x,y,a,len)=>tr(x,y,a,1,R(-len/2,-42,len,84,'#ffd400',0)+T('CRIME SCENE • DO NOT CROSS • CRIME SCENE • DO NOT CROSS • CRIME SCENE',0,14,40,OUT,900,'letter-spacing="3"'));
-    s+=tape(1260,1980,-36,1500)+tape(250,560,32,700);
+    const tape=(x,y,a,len)=>tr(x,y,a,1,R(-len/2,-42,len,84,'#ffd400',0)+T(Array(9).fill('CRIME SCENE • DO NOT CROSS').join(' • '),0,14,40,OUT,900,'letter-spacing="3"'));
+    s+=tape(1260,1980,-36,5600)+tape(250,560,32,5600);
     for(let i=1;i<=8;i++){const [x,y]=rbox(r,[200,700,1200,1300]);s+=tr(x,y,rr(r,-20,20),1,P('M-30 22L0 -26L30 22Z','#ffd400')+T(i,0,16,26))}
     s+=dots(r,90,'#a87648',3,7);
     return s;
@@ -1485,7 +1486,7 @@ function find(t){
   if(run.tut){ tutCheck(); return; }
   const wasUnl = run.i < LEVELS.length-1 && unlocked(run.i+1);
   record();
-  if(run.found === 10 && run.i < LEVELS.length-1 && !wasUnl){ justUnlocked = run.i+1; ribbon(`Level ${run.i+2} unlocked!`); }
+  if(run.found === 10 && run.i < LEVELS.length-1 && !wasUnl){ justUnlocked = run.i+1; ribbon(`Level ${run.i+2} unlocked!`, run.i+1); }
   if(run.found === run.targets.length){ run.over = true; setTimeout(showDone, 1100); }
 }
 function miss(wx, wy){
@@ -1494,7 +1495,11 @@ function miss(wx, wy){
   stage.classList.remove('hurt'); void stage.offsetWidth; stage.classList.add('hurt');
   if(run.tut){ run.tmiss = true; tutCheck(); } else record();
 }
-function ribbon(txt){ const r = $('#ribbon'); r.innerHTML = UNLOCK + txt; setTimeout(() => SND.play('unlock'), 350); r.classList.remove('show'); void r.offsetWidth; r.classList.add('show'); }
+const rib = $('#ribbon');
+['pointerdown','pointerup','pointermove'].forEach(t => rib.addEventListener(t, e => e.stopPropagation()));
+rib.addEventListener('animationend', () => rib.classList.remove('show'));
+rib.onclick = () => { if(rib.dataset.go && rib.classList.contains('show')){ rib.classList.remove('show'); SND.play('tap'); startLevel(+rib.dataset.go); } };
+function ribbon(txt, go){ const r = rib; r.dataset.go = go ?? ''; r.innerHTML = UNLOCK + txt + (go != null ? '<b>Play ›</b>' : ''); setTimeout(() => SND.play('unlock'), 350); r.classList.remove('show'); void r.offsetWidth; r.classList.add('show'); }
 function showDone(){
   if(!run) return;
   const last = run.i === LEVELS.length-1;
